@@ -1,0 +1,32 @@
+{
+  "name": "youtube",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+    "start": "npm run build && node dist/index.js"
+  },
+  "build": "babel server --out-dir build --presets=es2015 && webpack",
+  "dependencies": {
+    "@google-cloud/logging-winston": "^0.8.1",
+    "axios": "^0.17.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "body-parser": "^1.18.2",
+    "bull": "^3.3.10",
+    "dotenv": "^5.0.0",
+    "ejs-locals": "^1.0.2",
+    "express": "^4.16.2",
+    "getmac": "^1.4.1",
+    "grpc": "^1.10.0",
+    "moment": "^2.21.0",
+    "mysql": "^2.15.0",
+    "nodemon": "*",
+    "nunjucks": "^3.1.2",
+    "pug": "^2.0.3",
+    "socket.io": "^2.1.0",
+    "winston": "^2.4.1"
+  }
+}

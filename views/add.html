@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title 234234</title>
+</head>
+<body>
+<h1>Add you favourite playlists or videos here </h1>
+<h1> {{ message }} </h1>
+<form action="" id="addYoutube">
+    <input type="text" name="videoUrl" id="videoUrl">
+    <input type="submit">
+</form>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+
+<script src="/socket.io/socket.io.js"></script>
+
+
+<script type="text/javascript">
+    var socket = io.connect('http://song.node');
+    function isValidYouTubeUrl(url) {
+        if (url != undefined || url != '') {
+            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+            if (match && match[2].length == 11) {
+                return true;
+            } else {
+                return false;
+                // Do anything for not being valid
+            }
+        }
+    }
+
+    $(document).ready(function () {
+        $('#addYoutube').on('submit',function (event) {
+            var videourl = $('#videoUrl').val();
+            if(!isValidYouTubeUrl(videourl)) {
+                alert('invalid url');
+                return false;
+            }
+            event.preventDefault();
+            $.ajax({
+                url : 'http://song.node/add/video?videourl='+videourl,
+                success : function (response) {
+                    console.log(response.success);
+                    if(response.success) {
+                        alert('Your video has been added.');
+                        $('#videoUrl').val('');
+                        socket.emit('add',response.data);
+                    }
+                }
+
+            });
+        });
+    })
+</script>
+
+</body>
+</html>

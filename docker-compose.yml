@@ -1,0 +1,23 @@
+version: "2"
+services:
+  song.node:
+    container_name : song.node
+    image: "node:9-alpine"
+    working_dir: /src
+    environment:
+      - VIRTUAL_HOST=song.node
+      - NODE_ENV=dev
+    volumes:
+      - ./:/src
+      - CacheVolume:/src/sites
+    networks:
+      - pagevamp
+    expose:
+      - "3000"
+    command: "node_modules/nodemon/bin/nodemon.js index.js --exec ./node_modules/.bin/babel-node"
+networks:
+  pagevamp:
+    external: true
+volumes:
+  CacheVolume:
+    external: true
