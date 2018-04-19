@@ -12,9 +12,9 @@ class PlayerController {
     }
 
 
-    addMusicView(req,res) {
-
-        res.render('add.html', { name: 'Hey', message: 'Hello there!'});
+    async addMusicView(req,res) {
+        let data  = await this.getActivePlaylist();
+        res.render('add.html',{'playlist' :  JSON.stringify(data)});
     }
 
     getActivePlaylist () {

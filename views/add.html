@@ -2,24 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title 234234</title>
+    <title>PV Player</title>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        var domain = 'http://song.node';
+        var socket = io.connect(domain);
+        var songsList = "{{ playlist }}";
+        socket.on('refreshList',function (data) {
+            songsList = data;
+            if(player.getPlayerState() == 5) {
+                yplayer.playNextSong();
+            }
+        });
+    </script>
 </head>
 <body>
 <h1>Add you favourite playlists or videos here </h1>
-<h1> {{ message }} </h1>
-<form action="" id="addYoutube">
-    <input type="text" name="videoUrl" id="videoUrl">
-    <input type="submit">
-</form>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6">
+            <form action="" id="addYoutube">
+                <input type="text" class="form-control"  class="form-control" name="videoUrl" id="videoUrl">
+                <input type="submit">
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Playlist</div>
+
+                <!-- Table -->
+                <table class="table">
+
+                    <thead>
+                    <tr>
+                        <th> Song Name</th>
+                        <th>Duration</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            asd
+                        </td>
+                        <td>zxc</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
         crossorigin="anonymous"></script>
 
-<script src="/socket.io/socket.io.js"></script>
 
 
 <script type="text/javascript">
-    var socket = io.connect('http://song.node');
+
     function isValidYouTubeUrl(url) {
         if (url != undefined || url != '') {
             var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
@@ -42,7 +85,7 @@
             }
             event.preventDefault();
             $.ajax({
-                url : 'http://song.node/add/video?videourl='+videourl,
+                url : domain+'/add/video?videourl='+videourl,
                 success : function (response) {
                     console.log(response.success);
                     if(response.success) {
